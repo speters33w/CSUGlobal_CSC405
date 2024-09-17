@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<!--Gandal, G. (2024, July 25). How to handle mouse and keyboard input in WebGL? GeeksforGeeks. https://www.geeksforgeeks.org/how-to-handle-mouse-and-keyboard-input-in-webgl/ -->
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width,
+                   initial-scale=1.0">
+    <title>WebGL Keyboard Input Example</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+        }
+
+        canvas {
+            border: 1px solid black;
+        }
+
+        .controls {
+            margin-bottom: 10px;
+        }
+
+        #info {
+            margin-top: 10px;
+            font-family: Arial, sans-serif;
+        }
+    </style>
+</head>
+
+<body>
+<div class="controls">
+    <button id="reset">Reset Position</button>
+</div>
+<div id="container">
+    <canvas id="webgl-canvas" width="600" height="400"></canvas>
+    <div id="info">Current Key: None</div>
+</div>
+<script src="keyboard_listener.js"></script>
+</body>
+
+</html>

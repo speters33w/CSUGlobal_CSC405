@@ -1,0 +1,67 @@
+/*  Stars
+----------------------------------------
+Modified from
+Clark, K. (n.d.). Pure CSS starfield. CodePen. https://codepen.io/keithclark/pen/DQdKbg
+*/
+
+/* The #space and .stars selectors apply styles to the container and individual star elements, respectively. */
+#space, .stars {
+    overflow: hidden; /* Hide any content that goes beyond the container's boundaries. */
+    position: absolute; /* Position the container and stars absolutely within their nearest positioned ancestor. */
+    top: 0; bottom: 0; left: 0; right: 0; /* Position the container and stars at the edges of the viewport. */
+}
+
+/* The .stars selector applies styles to individual star elements. */
+.stars {
+    background-image: /* Define the star patterns using radial gradients. */
+            radial-gradient(2px 2px at 20px 30px, #f00, rgba(0,0,0,0)),
+            radial-gradient(2px 2px at 40px 70px, #0f0, rgba(0,0,0,0)),
+            radial-gradient(2px 2px at 50px 160px, #00f, rgba(0,0,0,0)),
+            radial-gradient(2px 2px at 90px 40px, #ff0, rgba(0,0,0,0)),
+            radial-gradient(2px 2px at 130px 80px, #0ff, rgba(0,0,0,0)),
+            radial-gradient(2px 2px at 160px 120px, #fff, rgba(0,0,0,0));
+    background-repeat: repeat; /* Repeat the star patterns in both horizontal and vertical directions. */
+    background-size: 200px 200px; /* Set the size of each star pattern. */
+    animation: zoom 5s infinite; /* Apply the zoom animation to each star element. */
+    opacity: 0; /* Start with an opacity of 0 to make the stars appear faintly. */
+}
+
+/* The nth-child pseudo-class is used to target specific star elements. */
+.stars:nth-child(1) {
+    background-position: 50% 50%; /* Position the first star pattern in the center. */
+    animation-delay: 0s; /* Start the animation immediately. */
+}
+.stars:nth-child(2) {
+    background-position: 20% 60%; /* Position the second star pattern slightly offset. */
+    animation-delay: 1s; /* Delay the animation by 1 second. */
+}
+.stars:nth-child(3) {
+    background-position: -20% -30%; /* Position the third star pattern further offset. */
+    animation-delay: 2s; /* Delay the animation by 2 seconds. */
+}
+.stars:nth-child(4) {
+    background-position: 40% -80%; /* Position the fourth star pattern even further offset. */
+    animation-delay: 3s; /* Delay the animation by 3 seconds. */
+}
+.stars:nth-child(5) {
+    background-position: -20% 30%; /* Position the fifth star pattern in a different direction. */
+    animation-delay: 4s; /* Delay the animation by 4 seconds. */
+}
+
+/* The @keyframes rule defines the zoom animation. */
+@keyframes zoom {
+    0% {
+        opacity: 0; /* Start with an opacity of 0. */
+        transform: scale(0.5); /* Start with a small scale. */
+        animation-timing-function: ease-in; /* Use an ease-in timing function to gradually increase the scale. */
+    }
+    85% {
+        opacity: 1; /* Maintain an opacity of 1. */
+        transform: scale(2.8); /* Gradually increase the scale to 2.8. */
+        animation-timing-function: linear; /* Use a linear timing function to maintain a constant speed during this phase. */
+    }
+    100% {
+        opacity: 0; /* End with an opacity of 0. */
+        transform: scale(3.5); /* Gradually increase the scale to 3.5. */
+    }
+}

@@ -1,0 +1,31 @@
+html, body {
+    width:  100%;
+    height: 100%;
+    margin: 0;
+    background: #000;
+}
+
+
+/* Centers canvas in window if landscape */
+@media screen and (orientation: portrait) {
+    #glCanvas {
+        z-index: 0;
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+        width: 100%;
+        text-align: center;
+    }
+}
+
+/* Centers canvas in window if landscape */
+@media screen and (orientation: landscape) {
+    #glCanvas {
+        z-index: 0;
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+        height: 100%;
+        text-align: center;
+    }
+}

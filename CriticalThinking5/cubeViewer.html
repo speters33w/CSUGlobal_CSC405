@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>WebGL 3D Cube Viewer</title>
+    <meta charset="UTF-8">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Overpass:ital,wght@0,100..900;1,100..900&display=swap"
+          rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/flexbox.css"/>
+    <style>
+        .sliderDescription {
+            font-family: Overpass, sans-serif;
+            font-weight: bold;
+            text-align: center;
+        }
+    </style>
+    <script type="text/javascript" src="./common/webgl-utils.js"></script>
+    <script type="text/javascript" src="./common/initShaders.js"></script>
+    <script type="text/javascript" src="./common/MV.js"></script>
+    <script src="./js/slider.js"></script>
+    <script type="text/javascript" src="cubeViewer.js"></script>
+    <!-- Shaders -->
+    <script id="vertex-shader" type="x-shader/x-vertex">
+        attribute vec4 vPosition;
+        attribute vec4 vColor;
+        varying vec4 fColor;
+
+        uniform mat4 modelViewMatrix;
+        uniform mat4 projectionMatrix;
+        uniform vec3 lightPosition;
+
+        void main()
+        {
+            vec4 transformedPosition = modelViewMatrix * vPosition;
+            vec3 lightDirection = normalize(lightPosition - transformedPosition.xyz);
+
+            float diffuse = max(dot(lightDirection, vec3(0.0, 0.0, 1.0)), 0.0);
+            vec4 diffuseColor = vec4(vColor.rgb * diffuse, vColor.a);
+
+            gl_Position = projectionMatrix * transformedPosition;
+            fColor = diffuseColor;
+        }
+    </script>
+
+    <script id="fragment-shader" type="x-shader/x-fragment">
+        #ifdef GL_ES
+precision highp float;
+        #endif
+
+        varying vec4 fColor;
+
+        void main()
+        {
+            gl_FragColor = fColor;
+        }
+    </script>
+</head>
+<body>
+<div class="parent">
+    <div class="left">
+        <table>
+            <tr>
+                <td><p class="sliderDescription">Distance;</p></td>
+            </tr>
+            <tr>
+                <td><input id="distanceSlider" type="range" min="1" max="4" step="0.1" value="4"/></td>
+            </tr>
+        </table>
+        <table>
+            <tr>
+                <td><p class="sliderDescription">Theta &theta;</p></td>
+            </tr>
+            <tr>
+                <td><input id="thetaSlider" type="range" min="-90" max="90" step="5" value="0"/></td>
+            </tr>
+        </table>
+        <table>
+            <tr>
+                <td><p class="sliderDescription">Phi &phi;</p></td>
+            </tr>
+            <tr>
+                <td><input id="phiSlider" type="range" min="-90" max="90" step="5" value="0"/></td>
+            </tr>
+        </table>
+        <table>
+            <tr>
+                <td><p class="sliderDescription">Field of View (FOV)</p></td>
+            </tr>
+            <tr>
+                <td><input id="fovSlider" type="range" min="10" max="120" step="5" value="45"/></td>
+            </tr>
+        </table>
+        <table>
+            <tr>
+                <td><p class="sliderDescription">Aspect</p></td>
+            </tr>
+            <tr>
+                <td><input id="aspectSlider" type="range" min="0.1" max="4" step="0.1" value="1"/></td>
+            </tr>
+        </table>
+    </div>
+    <div class="right">
+        <canvas id="gl-canvas" width="512" height="512">
+            Unsupported.
+            See <a href="https://teaching.pitt.edu/resources/browser-support-for-canvas/">Browser Support for Canvas</a>
+        </canvas>
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!--Gandal, G. (2024, July 25). How to handle mouse and keyboard input in WebGL? GeeksforGeeks. https://www.geeksforgeeks.org/how-to-handle-mouse-and-keyboard-input-in-webgl/ -->
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width,
+                   initial-scale=1.0">
+    <title>Example 1</title>
+    <style>
+        canvas {
+            border: 1px solid black;
+        }
+
+        .controls {
+            margin-bottom: 10px;
+        }
+
+        #info {
+            margin-top: 10px;
+            font-family: Arial, sans-serif;
+        }
+    </style>
+</head>
+
+<body>
+<div class="controls">
+    <button id="clear">Clear Canvas</button>
+</div>
+<canvas id="webgl-canvas" width="800" height="600"></canvas>
+<div id="info">Mouse Position: X: 0, Y: 0</div>
+<script src="mouse_listener.js"></script>
+</body>
+
+</html>

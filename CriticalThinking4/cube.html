@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>WebGL 3D Cube</title>
+    <meta name="viewport" content="width=device-width, user-scalable=yes, minimum-scale=1.0, maximum-scale=1.0">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <link href="./css/styles.css" rel="stylesheet" type="text/css">
+
+    <!--Shaders are stored in separate glsl files.-->
+    <script name="shader" data-src="./shaders/vertex.glsl" data-type="vertex" data-version="v1"></script>
+    <script name="shader" data-src="./shaders/fragment.glsl" data-type="fragment" data-version="v1"></script>
+
+    <!--./libs/signals.js handles events (mousedown, keydown, etc.)-->
+    <script type="text/javascript" src="./common/signals.js"></script>
+
+    <!-- provides mathematical functions and utilities for working with 2D and 3D graphics. -->
+    <script type="text/javascript" src="./common/glMatrix.js"></script>
+
+    <!-- Common WebGL utility libraries used for this application. -->
+    <script type="text/javascript" src="./common/glUtils.js"></script>
+    <script type="text/javascript" src="./common/uiUtils.js"></script>
+
+    <!-- Script that creates the cube using the above shaders and utilities. -->
+    <script type="text/javascript" src="./cube.js"></script>
+</head>
+
+<body onload="alert('Drag the mouse to rotate the cube. \nUse the arrow keys to bring it nearer or farther.')">
+    <canvas id="glCanvas">
+        Unsupported.
+        See <a href="https://teaching.pitt.edu/resources/browser-support-for-canvas/">Browser Support for Canvas</a>
+    </canvas>
+</body>
+</html>
