@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Approximating a Sphere Recursively</title>
+    <meta charset="UTF-8">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Overpass:ital,wght@0,100..900;1,100..900&display=swap"
+          rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/flexbox.css"/>
+    <style>
+        .sliderDescription {
+            font-family: Overpass, sans-serif;
+            font-weight: bold;
+            text-align: center;
+        }
+    </style>
+    <script type="text/javascript" src="./common/initShaders.js"></script>
+    <script type="text/javascript" src="./common/MVnew.js"></script>
+    <script src="./js/slider.js"></script>
+    <script type="text/javascript" src="shadedSphere.js"></script>
+    <script type="text/javascript" src="shadedSphere.js"></script>
+
+
+<!--
+Vertex Shader:
+The vertex shader is executed for each vertex of the 3D sphere. It performs the following operations:
+Input Variables: The vertex shader takes in the vertex position (aPosition) and normal (aNormal) as input attributes.
+Output Variables: The vertex shader outputs the vertex color (vColor).
+Uniform Variables: The vertex shader uses uniform variables such as the ambient product (uAmbientProduct),
+    diffuse product (uDiffuseProduct), specular product (uSpecularProduct), model-view matrix (uModelViewMatrix),
+    projection matrix (uProjectionMatrix), light position (uLightPosition), shininess (uShininess),
+    and eye position (uEyePosition).
+Calculations: The vertex shader performs the following calculations:
+    Scales the model-view matrix by a scaling factor of 2.0 along the x, y, and z axes.
+    Calculates the light direction (L) based on the light position and vertex position.
+    Calculates the eye direction (E) based on the eye position.
+    Calculates the halfway vector (H) between the light direction and eye direction.
+    Normalizes the vertex normal (N).
+    Calculates the ambient, diffuse, and specular components of the vertex color.
+    Sets the vertex color (vColor) by combining the ambient, diffuse, and specular components.
+Position Transformation: The vertex shader transforms the vertex position using the projection matrix
+    and the scaled model-view matrix. The transformed position is then assigned to the built-in gl_Position variable.
+-->
+    <script id="vertex-shader" type="x-shader/x-vertex">
+        #version 300 es
+
+        in vec4 aPosition;
+        in vec4 aNormal;
+
+        out vec4 vColor;
+
+        uniform vec4 uAmbientProduct, uDiffuseProduct, uSpecularProduct;
+        uniform mat4 uModelViewMatrix;
+        uniform mat4 uProjectionMatrix;
+        uniform vec4 uLightPosition;
+        uniform float uShininess;
+        uniform vec3 uEyePosition;
+
+        void
+        main()
+        {
+            // Scale the model-view matrix by a scaling factor
+            mat4 scaledModelViewMatrix = mat4(1.0) * uModelViewMatrix;
+            scaledModelViewMatrix[0][0] *= 2.0; // Scale along the x-axis
+            scaledModelViewMatrix[1][1] *= 2.0; // Scale along the y-axis
+            scaledModelViewMatrix[2][2] *= 2.0; // Scale along the z-axis
+
+            vec3 L;
+            if(uLightPosition.w == 0.0)  L = normalize(uLightPosition.xyz);
+            else  L = normalize((uLightPosition - aPosition).xyz);
+
+            vec3 E = normalize(uEyePosition);
+
+            vec3 H = normalize(L + E);
+
+            vec3 N = normalize(aNormal.xyz);
+
+            vec4 ambient = uAmbientProduct;
+
+            float Kd = max( dot(L, N), 0.0 );
+            vec4  diffuse = Kd*uDiffuseProduct;
+
+            float Ks = pow( max(dot(N, H), 0.0), uShininess );
+            vec4  specular = Ks * uSpecularProduct;
+
+            if( dot(L, N) < 0.0 ) {
+                specular = vec4(0.0, 0.0, 0.0, 1.0);
+            }
+
+            gl_Position = uProjectionMatrix * scaledModelViewMatrix * aPosition;
+
+            vColor = ambient + diffuse +specular;
+
+            vColor.a = 1.0;
+        }
+    </script>
+
+<!--
+Fragment Shader:
+The fragment shader is executed for each fragment (or pixel) of the 3D sphere. It performs the following operations:
+Input Variables: The fragment shader takes in the fragment color (vColor) as input attribute.
+Output Variables: The fragment shader outputs the fragment color (fColor).
+Calculations: The fragment shader simply assigns the fragment color (fColor) to the input vertex color (vColor).
+-->
+    <script id="fragment-shader" type="x-shader/x-fragment">
+        #version 300 es
+
+        precision mediump float;
+
+        in vec4 vColor;
+        out vec4 fColor;
+
+        void
+        main()
+        {
+            fColor = vColor;
+        }
+    </script>
+</head>
+<body>
+
+<div class="parent">
+    <div class="left">
+        <!-- Color sliders. They do not dynamically update, user must click the "Change Color" button.
+             This is because the document became unresponsive while adjusting the colors
+             and calling init() at each adjustment -->
+        <table style="width: 98%">
+            <tr>
+                <td><p class="sliderDescription">Red</p></td>
+            </tr>
+            <tr>
+                <td> <input style="width: 98%" type="range" id="redSlider" min="0" max="1" step="0.1" value="1.0"></td>
+            </tr>
+        </table>
+        <table style="width: 98%">
+            <tr>
+                <td><p class="sliderDescription">Green</p></td>
+            </tr>
+            <tr>
+                <td> <input style="width: 98%" type="range" id="greenSlider" min="0" max="1" step="0.1" value="0.6"></td>
+            </tr>
+        </table>
+        <table style="width: 98%">
+            <tr>
+                <td><p class="sliderDescription">Blue</p></td>
+            </tr>
+            <tr>
+                <td> <input style="width: 98%" type="range" id="blueSlider" min="0" max="1" step="0.1" value="0.2"></td>
+            </tr>
+        </table>
+        <div style = "text-align: center; width: 98%; padding-bottom: 10%; padding-top: 10%">
+        <button id = "init">Change Color</button>
+        </div>
+
+        <!-- Adjust Theta and Phi values, as well as number of subdivisions to create the sphere. -->
+        <table style="border-top: 1px solid black; width: 98%">
+            <tr>
+                <td><p class="sliderDescription">Theta &theta;</p></td>
+            </tr>
+            <tr>
+                <td><input style="width: 98%" id="thetaSlider" type="range" min="-90" max="90" step="5" value="0"/></td>
+            </tr>
+        </table>
+        <table style="width: 98%">
+            <tr>
+                <td><p class="sliderDescription">Phi &phi;</p></td>
+            </tr>
+            <tr>
+                <td><input style="width: 98%" id="phiSlider" type="range" min="-90" max="90" step="5" value="0"/></td>
+            </tr>
+        </table>
+        <table style="width: 98%">
+            <tr>
+                <td><p class="sliderDescription">Subdivisions</p></td>
+            </tr>
+            <tr>
+                <td><input style="width: 98%" id="subdivisionSlider" type="range" min="1" max="6" step="1" value="5"/></td>
+            </tr>
+        </table>
+    </div>
+
+    <!-- Create the canvas where the sphere will be shown. -->
+    <div class="right">
+        <canvas id="gl-canvas" width="640" height="640">
+            Unsupported.
+            See <a href="https://teaching.pitt.edu/resources/browser-support-for-canvas/">Browser Support for Canvas</a>
+        </canvas>
+    </div>
+</div>
+</body>
+</html>

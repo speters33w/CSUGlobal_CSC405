@@ -10,6 +10,6 @@ This repository contains my solutions while taking CSC405 Graphics and Visualiza
 
 [Portfolio Project Milestone](./CriticalThinking5/CSC405_CT5_InteractiveViewer.md) Interactive Viewer
 
-Critical Thinking 6 Approximating a Sphere Recursively
+[Critical Thinking 6](./CriticalThinking6/CSC405_CT6_RecursiveSphere.md) Approximating a Sphere Recursively
 
 Portfolio Project Hidden-Surface Removal Problem
