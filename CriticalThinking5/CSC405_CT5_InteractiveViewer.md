@@ -11,3 +11,5 @@ This week’s discussion has introduced viewing, particularly  with respect to v
 - Include [screenshots](./images/) your working program
 - Submit all the [source files](./) of your working program
 - Submit your 1-2 paragraph [Word document](./doc/Peters_Stephan_CSC405_CT5_Interactive_Viewer.docx) discussing viewing functions 
+
+![](https://raw.githubusercontent.com/speters33w/CSUGlobal_CSC405/refs/heads/master/CriticalThinking5/images/InteractiveViewerExample1.PNG)

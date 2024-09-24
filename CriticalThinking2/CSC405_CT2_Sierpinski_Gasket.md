@@ -19,3 +19,5 @@ As you witness the Sierpinski Gasket being rendered, what do you  observe? How d
 - Your code [[JavaScript](./sierpinski_gasket.js), [HTML](sierpinski_gasket.html), [Java](./src/SierpinskiTriangle.java)]
 - [Screen images](./images/) of your image being rendered
 - [2-3 paragraph reflection](./doc/Peters_Stephan_CSC405_CT2_Sierpinski_Gasket.docx)
+
+![](https://raw.githubusercontent.com/speters33w/CSUGlobal_CSC405/refs/heads/master/CriticalThinking2/images/3d_Examples.png)

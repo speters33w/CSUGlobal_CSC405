@@ -19,3 +19,5 @@ Document the steps you took to create the colored cube. Explain the role of shad
 - Include [screenshots](./images/) your working program
 - Submit all the [source files](./) of your working program
 - Submit a [Word document](./doc/Peters_Stephan_CSC405_CT4_Colored_Cube.docx) with the documentation and reflection
+
+![](https://raw.githubusercontent.com/speters33w/CSUGlobal_CSC405/refs/heads/master/CriticalThinking4/images/Figure1b.PNG)
