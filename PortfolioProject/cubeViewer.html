@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>WebGL 3D Cube Viewer</title>
+    <meta charset="UTF-8">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Overpass:ital,wght@0,100..900;1,100..900&display=swap"
+          rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./css/flexbox.css"/>
+    <link rel="stylesheet" href="./css/styles.css"/>
+    <style>
+        .sliderDescription {
+            font-family: Overpass, sans-serif;
+            font-weight: bold;
+            text-align: center;
+            color: #ffffff;
+        }
+    </style>
+    <script type="text/javascript" src="./common/webgl-utils.js"></script>
+    <script type="text/javascript" src="./common/initShaders.js"></script>
+    <script type="text/javascript" src="./common/MV.js"></script>
+<!--    <script src="./js/slider.js"></script>-->
+    <script type="text/javascript" src="cubeViewer.js"></script>
+    <script id="vertex-shader" type="x-shader/x-vertex">
+
+        attribute vec4 vPosition;
+        attribute vec4 vColor;
+        varying vec4 fColor;
+
+        uniform vec3 theta;
+
+        void main()
+        {
+            // Compute the sines and cosines of theta for each of
+            //   the three axes in one computation.
+            vec3 angles = radians(theta);
+            vec3 c = cos(angles);
+            vec3 s = sin(angles);
+
+            // Remeber: thse matrices are column-major
+            mat4 rx = mat4(1.0, 0.0, 0.0, 0.0,
+                           0.0, c.x, s.x, 0.0,
+                           0.0, -s.x, c.x, 0.0,
+                           0.0, 0.0, 0.0, 1.0);
+
+            mat4 ry = mat4(c.y, 0.0, -s.y, 0.0,
+                           0.0, 1.0, 0.0, 0.0,
+                           s.y, 0.0, c.y, 0.0,
+                           0.0, 0.0, 0.0, 1.0);
+
+            mat4 rz = mat4(c.z, -s.z, 0.0, 0.0,
+                           s.z, c.z, 0.0, 0.0,
+                           0.0, 0.0, 1.0, 0.0,
+                           0.0, 0.0, 0.0, 1.0);
+
+
+            fColor = vColor;
+            gl_Position = rz * ry * rx * vPosition;
+        }
+    </script>
+
+    <script id="fragment-shader" type="x-shader/x-fragment">
+
+        precision mediump float;
+
+        varying vec4 fColor;
+
+        void
+        main()
+        {
+            gl_FragColor = fColor;
+        }
+    </script>
+</head>
+<body>
+<div class="parent">
+    <div class="left">
+        <table>
+            <tr>
+                <td><p class="sliderDescription">Distance</p></td>
+            </tr>
+            <tr>
+                <td><input id="distanceSlider" type="range" min="0.1" max="1.0" step="0.1" value="0.4"/></td>
+            </tr>
+        </table>
+        <table>
+            <tr>
+                <td><p class="sliderDescription">X</p></td>
+            </tr>
+            <tr>
+                <td><input id="thetaXSlider" type="range" min="-90" max="90" step="5" value="0"/><br />
+                    <button id="ButtonX">Rotate X</button>
+                </td>
+            </tr>
+        </table>
+        <table>
+            <tr>
+                <td><p class="sliderDescription">Y</p></td>
+            </tr>
+            <tr>
+                <td><input id="thetaYSlider" type="range" min="-90" max="90" step="5" value="0"/><br />
+                    <button id="ButtonY">Rotate Y</button>
+                </td>
+            </tr>
+        </table>
+        <table>
+            <tr>
+                <td><p class="sliderDescription">Z</p></td>
+            </tr>
+            <tr>
+                <td><input id="thetaZSlider" type="range" min="-90" max="90" step="5" value="0"/><br />
+                    <button id="ButtonZ">Rotate Z</button>
+                </td>
+            </tr>
+        </table>
+        <table>
+            <tr>
+                <td><p class="sliderDescription">Buttons</p></td>
+            </tr>
+            <tr>
+                <button id="ButtonT">Toggle Rotation</button>
+                <button id="ButtonH">Toggle Hidden Surface Removal</button>
+            </tr>
+        </table>
+    </div>
+    <div class="right">
+        <canvas id="gl-canvas" width="512" height="512">
+            Unsupported.
+            See <a href="https://teaching.pitt.edu/resources/browser-support-for-canvas/">Browser Support for Canvas</a>
+        </canvas>
+    </div>
+</div>
+
+<br/>
+
+
+
+</body>
+</html>
