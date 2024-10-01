@@ -12,6 +12,6 @@
 
   - Include [screenshots](./images) your working program
   - Submit all the [source files](./) of your working program
-  - Submit a [Word document](./doc/Peters_Stephan_CSC405_CT6_Approximation_of_a_Sphere) with your discussion and reflection (approximately 3 paragraphs)
+  - Submit a [Word document](./doc/Peters_Stephan_CSC405_CT6_Approximation_of_a_Sphere.docx) with your discussion and reflection (approximately 3 paragraphs)
   
   ![](https://raw.githubusercontent.com/speters33w/CSUGlobal_CSC405/refs/heads/master/CriticalThinking6/images/sample2.png)

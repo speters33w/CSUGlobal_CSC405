@@ -15,7 +15,8 @@ let axis = xAxis;
 let distance = 0.7;
 
 let flag = true;
-let HSRflag = true;
+let rotating = false;
+let ShowHiddenSurfaces = true;
 
 let theta = [ 45.0, 45.0, 45.0 ];
 
@@ -70,25 +71,30 @@ window.onload = function ()
     document.getElementById("thetaXSlider").onchange = function(event) {
         theta[xAxis] = parseFloat(event.target.value) * Math.PI / 180.0;
     };
+    document.getElementById("XAxisButton").onclick = function(){axis = xAxis;};
 
     document.getElementById("thetaYSlider").onchange = function(event) {
         theta[yAxis] = parseFloat(event.target.value) * Math.PI / 180.0;
     };
+    document.getElementById("YAxisButton").onclick = function(){axis = yAxis;};
 
     document.getElementById("thetaZSlider").onchange = function(event) {
         theta[zAxis] = parseFloat(event.target.value) * Math.PI / 180.0;
     };
+    document.getElementById("ZAxisButton").onclick = function(){axis = zAxis;};
 
-    document.getElementById("ButtonX").onclick = function(){axis = xAxis;};
-    document.getElementById("ButtonY").onclick = function(){axis = yAxis;};
-    document.getElementById("ButtonZ").onclick = function(){axis = zAxis;};
-    document.getElementById("ButtonT").onclick = function(){flag = !flag;};
+    document.getElementById("rotationSlider").onchange = function(event) {
+        if (!rotating) {
+            theta[axis] += event.target.value;
+        }
+    };
+    document.getElementById("ToggleRotateButton").onclick = function(){rotating = !rotating;};
     document.getElementById("ButtonH").onclick = function(){
-        if(HSRflag) gl.enable(gl.DEPTH_TEST);
+        if(ShowHiddenSurfaces) gl.enable(gl.DEPTH_TEST);
         else gl.disable(gl.DEPTH_TEST);
-        //if(HSRflag) gl.enable(gl.CULL_FACE);
+        //if(ShowHiddenSurfaces) gl.enable(gl.CULL_FACE);
         //else gl.disable(gl.CULL_FACE);
-        HSRflag = !HSRflag;
+        ShowHiddenSurfaces = !ShowHiddenSurfaces;
     };
 
     render();
@@ -131,7 +137,7 @@ function quad(a, b, c, d, n)
         [ 1.0, 1.0, 1.0, 0.5 ]  // white
     ];
 
-    // We need to parition the quad into two triangles in order for
+    // We need to partition the quad into two triangles in order for
     // WebGL to be able to render it.  In this case, we create two
     // triangles from the quad.
     let indices = [ a, b, c, a, c, d ];
@@ -146,7 +152,7 @@ function render()
 {
     gl.clear( gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 
-    if(flag) theta[axis] += 2.0;
+    if(rotating) theta[axis] += 2.0;
     gl.uniform3fv(thetaLoc, theta);
 
     gl.drawArrays( gl.TRIANGLES, 0, numVertices );

@@ -91,7 +91,7 @@
             </tr>
             <tr>
                 <td><input id="thetaXSlider" type="range" min="-90" max="90" step="5" value="0"/><br />
-                    <button id="ButtonX">Rotate X</button>
+                    <button id="XAxisButton">Rotate X</button>
                 </td>
             </tr>
         </table>
@@ -101,7 +101,7 @@
             </tr>
             <tr>
                 <td><input id="thetaYSlider" type="range" min="-90" max="90" step="5" value="0"/><br />
-                    <button id="ButtonY">Rotate Y</button>
+                    <button id="YAxisButton">Rotate Y</button>
                 </td>
             </tr>
         </table>
@@ -111,7 +111,17 @@
             </tr>
             <tr>
                 <td><input id="thetaZSlider" type="range" min="-90" max="90" step="5" value="0"/><br />
-                    <button id="ButtonZ">Rotate Z</button>
+                    <button id="ZAxisButton">Rotate Z</button>
+                </td>
+            </tr>
+        </table>
+        <table>
+            <tr>
+                <td><p class="sliderDescription">Rotate</p></td>
+            </tr>
+            <tr>
+                <td><input id="rotationSlider" type="range" min="0" max="10" step="1" value="0"/><br />
+                    <button id="ToggleRotateButton">Toggle Rotation</button>
                 </td>
             </tr>
         </table>
@@ -120,7 +130,6 @@
                 <td><p class="sliderDescription">Buttons</p></td>
             </tr>
             <tr>
-                <button id="ButtonT">Toggle Rotation</button>
                 <button id="ButtonH">Toggle Hidden Surface Removal</button>
             </tr>
         </table>
